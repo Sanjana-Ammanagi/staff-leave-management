@@ -1,0 +1,11 @@
+.TableContainer {
+    margin-top: -30px; /* Adjust the negative margin to move the table up */
+  }
+
+  
+  
+  .add-staff-button {
+    display: block;
+    margin: 5px auto; /* Adjust the margin as needed */
+  }
+  
