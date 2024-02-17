@@ -11,6 +11,10 @@ const Navbar = () => {
     navigate('/staff'); // Navigate to the /staff route
   };
 
+  const handleLeaveTypeClick = () => {
+    navigate('/leavetype'); // Navigate to the /leavetype route
+  };
+
   return (
     <BootstrapNavbar bg="dark" variant="dark" className="navbar sticky-top">
       <Container>
@@ -26,7 +30,7 @@ const Navbar = () => {
         </BootstrapNavbar.Brand>
         <Nav className="me-auto">
           <Nav.Link onClick={handleStaffClick}>Staff</Nav.Link>
-          <Nav.Link href="#features">Leave Type</Nav.Link>
+          <Nav.Link onClick={handleLeaveTypeClick}>Leave Type</Nav.Link>
           <Nav.Link href="#pricing">Leave</Nav.Link>
         </Nav>
       </Container>

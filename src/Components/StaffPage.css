@@ -7,5 +7,6 @@
   .add-staff-button {
     display: block;
     margin: 5px auto; /* Adjust the margin as needed */
+    background: #53a8b6;
   }
   

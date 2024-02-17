@@ -8,9 +8,11 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Navbar from './Navbar';
 import './StaffPage.css';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 export default function StaffPage() {
   const [rows, setRows] = useState([]);
+  const navigate = useNavigate(); // Get the navigate function from useNavigate
 
   // useEffect to fetch data when the component mounts
   useEffect(() => {
@@ -25,8 +27,8 @@ export default function StaffPage() {
   }, []); // The empty dependency array ensures that this effect runs once when the component mounts
 
   const handleAddStaff = () => {
-    // Implement your logic to add a new staff, for example, show a modal or navigate to a form
-    console.log('Add Staff clicked');
+    // Use navigate to go to the new page (replace '/new-page' with the actual path)
+    navigate('/addstaff');
   };
 
   return (
@@ -45,10 +47,13 @@ export default function StaffPage() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {rows.map((row, index) => (
               <TableRow
                 key={row.Staff_id}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                sx={{
+                  '&:last-child td, &:last-child th': { border: 0 },
+                  backgroundColor: index % 2 === 0 ? '#bbe4e9' : 'white',
+                }}
               >
                 <TableCell component="th" scope="row">
                   {row.F_name} {row.L_name}
