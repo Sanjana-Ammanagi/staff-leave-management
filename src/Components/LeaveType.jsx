@@ -13,12 +13,14 @@ function createData(slNo, leaveType, description) {
 }
 
 const rows = [
-  createData(1, 'Vacation', 'Time off for relaxation'),
-  createData(2, 'Sick Leave', 'Leave due to illness'),
-  createData(3, 'Personal Leave', 'Leave due to personal matters'),
-  createData(4, 'Upaid Leave', 'Leave due to unpaid circumstances'),
+  createData(1, 'Earned Leave', 'Time off for relaxation, accrued based on work tenure.'),
+  createData(2, 'Casual Leave', 'Unplanned personal absence for various reasons.'),
+  createData(3, 'On Official Duty Leave', 'Authorized absence for work-related tasks.'),
+  createData(4, 'Compensatory Off Leave', 'Time off granted for overtime worked.'),
+  createData(5, 'Reserved Holiday Leave', 'Leave on designated reserved holidays.'),
   // Add more rows as needed
 ];
+
 
 export default function LeaveType() {
   return (

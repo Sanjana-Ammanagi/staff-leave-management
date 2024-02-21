@@ -5,7 +5,8 @@ import LogoImage from './logo.jpeg';
 import './Navbar.css';
 import { useNavigate } from 'react-router-dom';
 
-const Navbar = () => {
+
+const HodNavbar = () => {
   const navigate = useNavigate();
 
   const handleHomeClick = () => {
@@ -47,4 +48,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default HodNavbar;

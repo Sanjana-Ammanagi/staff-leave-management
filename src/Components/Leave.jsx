@@ -1,19 +1,30 @@
+// Leave.jsx
+
 import React, { useState } from 'react';
 import { Button, MenuItem } from '@mui/material';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Navbar from './Navbar';
 
-const AddStaff = () => {
+const Leave = () => {
   // State for form fields
   const [staffId, setStaffId] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
+  const [designation, setDesignation] = useState('');
   const [department, setDepartment] = useState('');
-  const [hireDate, setHireDate] = useState('');
-  const [gender, setGender] = useState('');
-  const [contactNumber, setContactNumber] = useState('');
+  const [sDates, setSDates] = useState('');
+  const [eDates, setEDates] = useState('');
+  const [leaveType, setLeaveType] = useState('');
+  const [reason, setReason] = useState('');
+
+  const handleKeyDown = (event, nextFieldId) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      const nextField = document.getElementById(nextFieldId);
+      if (nextField) {
+        nextField.focus();
+      }
+    }
+  };
 
   // Function to handle form submission
   const handleSubmit = async (event) => {
@@ -21,18 +32,17 @@ const AddStaff = () => {
 
     const formData = {
       staffId,
-      firstName,
-      lastName,
-      email,
+      designation,
       department,
-      hireDate,
-      gender,
-      contactNumber,
+      sDates,
+      eDates,
+      leaveType,
+      reason,
     };
 
     // Send a POST request to the server
     try {
-      const response = await fetch('http://localhost:3001/addStaff', {
+      const response = await fetch('http://localhost:3001/leaveRequest', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -44,13 +54,21 @@ const AddStaff = () => {
 
       // Handle the response from the server
       if (result.status === 'success') {
-        alert('Staff added successfully');
+        alert('Leave request submitted successfully');
+        // Optionally, you can clear the form after successful submission
+        setStaffId('');
+        setDesignation('');
+        setDepartment('');
+        setSDates('');
+        setEDates('');
+        setLeaveType('');
+        setReason('');
       } else {
-        alert('Error adding staff: ' + result.message);
+        alert('Error submitting leave request: ' + result.message);
       }
     } catch (error) {
       console.error('Error:', error);
-      alert('Error adding staff. Please try again later.');
+      alert('Error submitting leave request. Please try again later.');
     }
   };
 
@@ -101,30 +119,11 @@ const AddStaff = () => {
           />
           <TextField
             required
-            id="firstName"
-            label="First Name"
+            id="designation"
+            label="Designation"
             variant="outlined"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            className="spacing"
-          />
-          <TextField
-            required
-            id="lastName"
-            label="Last Name"
-            variant="outlined"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            className="spacing"
-          />
-          <TextField
-            required
-            id="email"
-            label="Email"
-            variant="outlined"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={designation}
+            onChange={(e) => setDesignation(e.target.value)}
             className="spacing"
           />
           <TextField
@@ -132,52 +131,57 @@ const AddStaff = () => {
             id="department"
             label="Department"
             variant="outlined"
-            select
             value={department}
             onChange={(e) => setDepartment(e.target.value)}
             className="spacing"
-          >
-            <MenuItem value="">Select Department</MenuItem>
-            <MenuItem value="CS">CS</MenuItem>
-            {/* Add more departments as needed */}
-          </TextField>
-          <TextField
-            required
-            id="hireDate"
-            label="Hire Date"
-            variant="outlined"
-            type="date"
-            value={hireDate}
-            onChange={(e) => setHireDate(e.target.value)}
-            className="spacing"
-            InputLabelProps={{ shrink: true }}
           />
+          <div className="dateInputs">
+            <TextField
+              required
+              id="s_dates"
+              label="Start Date"
+              type="date"
+              variant="outlined"
+              value={sDates}
+              onChange={(e) => setSDates(e.target.value)}
+              className="spacing"
+              InputLabelProps={{ shrink: true }}
+            />
+            <TextField
+              required
+              id="e_dates"
+              label="End Date"
+              type="date"
+              variant="outlined"
+              value={eDates}
+              onChange={(e) => setEDates(e.target.value)}
+              className="spacing"
+              InputLabelProps={{ shrink: true }}
+            />
+          </div>
           <TextField
             required
-            id="gender"
-            label="Gender"
+            id="leaveType"
+            label="Leave Type"
             variant="outlined"
             select
-            value={gender}
-            onChange={(e) => setGender(e.target.value)}
-            className="spacing"
+            value={leaveType}
+            onChange={(e) => setLeaveType(e.target.value)}
+            className="reasonField"
           >
-            <MenuItem value="">Select Gender</MenuItem>
-            <MenuItem value="Male">Male</MenuItem>
-            <MenuItem value="Female">Female</MenuItem>
-            {/* Add more genders as needed */}
+            <MenuItem value="Earned Leave">Earned Leave</MenuItem>
+            <MenuItem value="Casual Leave">Casual Leave</MenuItem>
+            {/* Add other leave types as needed */}
           </TextField>
           <TextField
             required
-            id="contactNumber"
-            label="Contact Number"
+            id="reason"
+            label="Reason for leave"
             variant="outlined"
-            type="text"
-            value={contactNumber}
-            onChange={(e) => setContactNumber(e.target.value)}
-            className="spacing"
+            value={reason}
+            onChange={(e) => setReason(e.target.value)}
+            className="reasonField"
           />
-          {/* ... (other TextField components) ... */}
           <Button variant="contained" type="submit" className="submitButton">
             Submit
           </Button>
@@ -187,4 +191,4 @@ const AddStaff = () => {
   );
 };
 
-export default AddStaff;
+export default Leave;

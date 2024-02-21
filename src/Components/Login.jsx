@@ -28,6 +28,22 @@ function Login() {
       .catch(err => console.log(err));
   }
   
+  function handleHODLogin() {
+    // Validate HOD login on the server
+    axios.post('http://localhost:3001/Hodhome', { email, password })
+      .then(res => {
+        console.log(res.data);
+        // Check if HOD login was successful based on the response
+        if (res.data.status === 'success') {
+          // Redirect to the HOD login page
+          navigate('/Hodhome');
+        } else {
+          console.log('HOD Login failed');
+        }
+      })
+      .catch(err => console.log(err));
+  }
+
   return (
     <div className="login-container">
       <div className="login-form">
@@ -49,7 +65,11 @@ function Login() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <button type="submit">Login</button>
+          <button type="submit">Login as Staff</button>
+          {/* Button to log in as HOD */}
+          <button type="button" onClick={handleHODLogin}>
+            Login as Hod
+          </button>
         </form>
       </div>
     </div>
