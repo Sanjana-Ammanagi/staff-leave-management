@@ -1,4 +1,3 @@
-// StaffPage.jsx
 import React, { useState, useEffect } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,10 +6,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import Navbar from './Navbar';
+import Navbar from './HodNavbar';
 import './StaffPage.css';
 import { useNavigate } from 'react-router-dom';
-import EditStaff from './EditStaff';
+import Hodedit from './Hodedit';
 
 export default function StaffPage() {
   const [rows, setRows] = useState([]);
@@ -34,13 +33,13 @@ export default function StaffPage() {
   };
 
   const handleEditStaff = (staffId) => {
-    navigate(`/editstaff/${staffId}`);
+    navigate(`/Hodedit/${staffId}`);
   };
 
   const handleDeleteStaff = (staffId) => {
     const apiUrl = `http://localhost:3001/deleteStaff/${staffId}`;
 
-    fetch(apiUrl, {
+    fetch(apiUrl,{
       method: 'DELETE',
     })
       .then((response) => response.json())
@@ -88,9 +87,10 @@ export default function StaffPage() {
                   <TableCell>{row.email}</TableCell>
                   <TableCell>{row.contact_number}</TableCell>
                   <TableCell align="center">
-                    <button className="action-button" onClick={() => handleEditStaff(row.staff_id)}>
-                      Edit
+                  <button className="action-button" onClick={() => handleEditStaff(row.staff_id)}>
+                    Edit
                     </button>
+
                     <button className="action-button" onClick={() => handleDeleteStaff(row.staff_id)}>
                       Delete
                     </button>

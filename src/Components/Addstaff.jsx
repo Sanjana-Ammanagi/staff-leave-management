@@ -1,3 +1,5 @@
+// AddStaff.jsx
+
 import React, { useState } from 'react';
 import { Button, MenuItem } from '@mui/material';
 import Box from '@mui/material/Box';
@@ -64,6 +66,7 @@ const AddStaff = () => {
             m: 1,
             width: '40ch',
             borderRadius: '8px',
+            fontSize: '16px', // Adjust the font size as needed
           },
           '& .spacing': {
             marginBottom: '2rem',
@@ -83,6 +86,7 @@ const AddStaff = () => {
             marginLeft: 'auto',
             marginRight: 'auto',
             display: 'block',
+            fontSize: '18px', // Adjust the font size as needed
           },
         }}
         noValidate

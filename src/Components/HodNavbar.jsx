@@ -1,27 +1,37 @@
-// Navbar.jsx
+// HodNavbar.jsx
 import React from 'react';
-import { Container, Nav, Navbar as BootstrapNavbar } from 'react-bootstrap';
+import { Container, Nav, Navbar as BootstrapNavbar, NavDropdown } from 'react-bootstrap';
 import LogoImage from './logo.jpeg';
 import './Navbar.css';
 import { useNavigate } from 'react-router-dom';
-
 
 const HodNavbar = () => {
   const navigate = useNavigate();
 
   const handleHomeClick = () => {
-    navigate('/home'); // Navigate to the /home route
+    navigate('/hodhome');
   };
 
   const handleStaffClick = () => {
-    navigate('/staff');
+    navigate('/Hodstaff');
   };
 
-  const handleLeaveTypeClick = () => {
-    navigate('/leavetype');
+  const handleLeaveClick = (status) => {
+    if (status === 'approved') {
+      navigate('/approvedleave');
+    } else if (status === 'declined') {
+      navigate('/declinedleave');
+    } else if (status === 'pending') {
+      navigate('/pendingleave');
+    } else {
+      navigate(`/manageleave/${status}`);
+    }
   };
-  const handleLeaveClick = () => {
-    navigate('/leave'); // Navigate to the /leave route
+
+  const handleLogoutClick = () => {
+    // Perform logout actions (e.g., clearing session, etc.)
+    // Then, navigate to the login page
+    navigate('/');
   };
 
   return (
@@ -39,9 +49,16 @@ const HodNavbar = () => {
         </BootstrapNavbar.Brand>
         <Nav className="me-auto">
           <Nav.Link onClick={handleStaffClick}>Staff</Nav.Link>
-          <Nav.Link onClick={handleLeaveTypeClick}>Leave Type</Nav.Link>
-          <Nav.Link onClick={handleLeaveClick}>Leave</Nav.Link>
-          
+          <NavDropdown title="Manage Leave" id="basic-nav-dropdown">
+            <NavDropdown.Item onClick={() => handleLeaveClick('approved')}>Approved Leaves</NavDropdown.Item>
+            <NavDropdown.Item onClick={() => handleLeaveClick('declined')}>Declined Leaves</NavDropdown.Item>
+            <NavDropdown.Item onClick={() => handleLeaveClick('pending')}>Pending Leaves</NavDropdown.Item>
+          </NavDropdown>
+        </Nav>
+        <Nav>
+          <NavDropdown title="HOD" id="basic-nav-dropdown">
+            <NavDropdown.Item onClick={handleLogoutClick}>Logout</NavDropdown.Item>
+          </NavDropdown>
         </Nav>
       </Container>
     </BootstrapNavbar>

@@ -1,6 +1,6 @@
 // Navbar.jsx
 import React from 'react';
-import { Container, Nav, Navbar as BootstrapNavbar } from 'react-bootstrap';
+import { Container, Nav, Navbar as BootstrapNavbar, NavDropdown } from 'react-bootstrap';
 import LogoImage from './logo.jpeg';
 import './Navbar.css';
 import { useNavigate } from 'react-router-dom';
@@ -9,7 +9,7 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const handleHomeClick = () => {
-    navigate('/home'); // Navigate to the /home route
+    navigate('/home');
   };
 
   const handleStaffClick = () => {
@@ -19,8 +19,15 @@ const Navbar = () => {
   const handleLeaveTypeClick = () => {
     navigate('/leavetype');
   };
+
   const handleLeaveClick = () => {
-    navigate('/leave'); // Navigate to the /leave route
+    navigate('/leave');
+  };
+
+  const handleLogoutClick = () => {
+    // Perform logout actions (e.g., clearing session, etc.)
+    // Then, navigate to the login page
+    navigate('/');
   };
 
   return (
@@ -40,7 +47,11 @@ const Navbar = () => {
           <Nav.Link onClick={handleStaffClick}>Staff</Nav.Link>
           <Nav.Link onClick={handleLeaveTypeClick}>Leave Type</Nav.Link>
           <Nav.Link onClick={handleLeaveClick}>Leave</Nav.Link>
-          
+        </Nav>
+        <Nav>
+          <NavDropdown title="Staff" id="basic-nav-dropdown">
+            <NavDropdown.Item onClick={handleLogoutClick}>Logout</NavDropdown.Item>
+          </NavDropdown>
         </Nav>
       </Container>
     </BootstrapNavbar>

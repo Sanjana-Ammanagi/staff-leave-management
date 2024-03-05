@@ -4,9 +4,11 @@ import React, { useState } from 'react';
 import { Button, MenuItem } from '@mui/material';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import { useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
 
 const Leave = () => {
+  const navigate = useNavigate();
   // State for form fields
   const [staffId, setStaffId] = useState('');
   const [designation, setDesignation] = useState('');
@@ -55,6 +57,10 @@ const Leave = () => {
       // Handle the response from the server
       if (result.status === 'success') {
         alert('Leave request submitted successfully');
+        localStorage.setItem('leaveRequestId', result.leaveRequestId);
+
+        navigate('/alternate-arrangement');
+
         // Optionally, you can clear the form after successful submission
         setStaffId('');
         setDesignation('');
