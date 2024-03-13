@@ -17,6 +17,7 @@ import Hodedit from './Components/Hodedit';
 import PendingLeave from './Components/PendingLeave';
 import ApprovedLeave from './Components/ApprovedLeave';
 import DeclinedLeave from './Components/DeclinedLeave';
+import ViewLeave from './Components/ViewLeave'; // Import the new ViewLeave component
 
 function App() {
   return (
@@ -32,11 +33,12 @@ function App() {
         <Route path="/editstaff/:staffId" element={<EditStaff />} />
         <Route path="/alternate-arrangement" element={<AlternateArrangement />} />
         <Route path="/manageleave" element={<ManageLeave />} />
-        <Route path="/Hodstaff" element={<Hodstaff/>} />
+        <Route path="/Hodstaff" element={<Hodstaff />} />
         <Route path="/Hodedit/:staffId" element={<Hodedit />} />
         <Route path="/pendingleave" element={<PendingLeave />} />
         <Route path="/approvedleave" element={<ApprovedLeave />} />
         <Route path="/declinedleave" element={<DeclinedLeave />} />
+        <Route path="/viewleave/:staffId" element={<ViewLeave />} /> {/* Add the route for ViewLeave */}
       </Routes>
     </Router>
   );
