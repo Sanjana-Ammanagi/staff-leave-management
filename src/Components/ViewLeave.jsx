@@ -7,39 +7,57 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import Button from '@mui/material/Button'; // Import Button component
-import { useParams } from 'react-router-dom'; // Import useParams for accessing URL parameters
+import { useParams } from 'react-router-dom';
 
 const ViewLeave = () => {
-  // State to store data for the table
   const [arrangements, setArrangements] = useState([]);
-  const [leaveBalance, setLeaveBalance] = useState(null); // State for leave balance
-  const { staffId } = useParams(); // Get staffId from URL parameter
+  const { staffId } = useParams();
 
   useEffect(() => {
-    // Fetch data for the table when the component mounts
     fetchArrangements();
-    fetchLeaveBalance(); // Fetch leave balance
   }, []);
 
-  // Function to fetch data for the table
   const fetchArrangements = () => {
-    // Make an API call to fetch data for the table
-    // Replace the URL with your actual API endpoint
     fetch(`http://localhost:3001/api/alternateArrangement/${staffId}`)
       .then((response) => response.json())
       .then((data) => setArrangements(data))
       .catch((error) => console.error('Error fetching arrangements:', error));
   };
 
-  // Function to fetch leave balance
-  const fetchLeaveBalance = () => {
-    // Make an API call to fetch leave balance for the staff
-    // Replace the URL with your actual API endpoint
-    fetch(`http://localhost:3001/api/leaveBalance/${staffId}`)
-      .then((response) => response.json())
-      .then((data) => setLeaveBalance(data.balance))
-      .catch((error) => console.error('Error fetching leave balance:', error));
+  const handleApproveAll = async () => {
+    try {
+      // Iterate through arrangements and approve each leave request
+      for (const arrangement of arrangements) {
+        await fetch(`http://localhost:3001/api/approveLeave/${arrangement.leave_request_id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ status: 'Approved' }),
+        });
+      }
+      fetchArrangements(); // Refresh the arrangements after approval
+    } catch (error) {
+      console.error('Error approving leave:', error);
+    }
+  };
+
+  const handleDeclineAll = async () => {
+    try {
+      // Iterate through arrangements and decline each leave request
+      for (const arrangement of arrangements) {
+        await fetch(`http://localhost:3001/api/approveLeave/${arrangement.leave_request_id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ status: 'Declined' }),
+        });
+      }
+      fetchArrangements(); // Refresh the arrangements after declining
+    } catch (error) {
+      console.error('Error declining leave:', error);
+    }
   };
 
   return (
@@ -67,21 +85,16 @@ const ViewLeave = () => {
                   <TableCell>{arrangement.class}</TableCell>
                   <TableCell>{arrangement.time}</TableCell>
                   <TableCell>{arrangement.alternate_faculty_name}</TableCell>
-                  {/* Display leave balance */}
-                  <TableCell>{leaveBalance}</TableCell>
+                  <TableCell>{/* Render leave balance here */}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
       </div>
-      <div className="buttons-container">
-        <Button variant="contained" color="primary" className="approve-button">
-          Approve
-        </Button>
-        <Button variant="contained" color="secondary" className="decline-button">
-          Decline
-        </Button>
+      <div className="button-container">
+        <button onClick={handleApproveAll}>Approve</button>
+        <button onClick={handleDeclineAll}>Decline</button>
       </div>
     </div>
   );
