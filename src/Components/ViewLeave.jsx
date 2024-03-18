@@ -11,10 +11,12 @@ import { useParams } from 'react-router-dom';
 
 const ViewLeave = () => {
   const [arrangements, setArrangements] = useState([]);
+  const [leaveBalances, setLeaveBalances] = useState({});
   const { staffId } = useParams();
 
   useEffect(() => {
     fetchArrangements();
+    fetchLeaveBalances();
   }, []);
 
   const fetchArrangements = () => {
@@ -23,6 +25,21 @@ const ViewLeave = () => {
       .then((data) => setArrangements(data))
       .catch((error) => console.error('Error fetching arrangements:', error));
   };
+
+  const fetchLeaveBalances = () => {
+    fetch(`http://localhost:3001/api/leaveBalance/${staffId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        // Convert leave balances array to an object for easy access
+        const leaveBalancesObj = {};
+        data.forEach((balance) => {
+          leaveBalancesObj[balance.staff_id] = balance.balance;
+        });
+        setLeaveBalances(leaveBalancesObj);
+      })
+      .catch((error) => console.error('Error fetching leave balances:', error));
+  };
+
 
   const handleApproveAll = async () => {
     try {
@@ -85,7 +102,7 @@ const ViewLeave = () => {
                   <TableCell>{arrangement.class}</TableCell>
                   <TableCell>{arrangement.time}</TableCell>
                   <TableCell>{arrangement.alternate_faculty_name}</TableCell>
-                  <TableCell>{/* Render leave balance here */}</TableCell>
+                  <TableCell>{leaveBalances[arrangement.leave_type_id]}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
