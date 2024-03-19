@@ -1,3 +1,4 @@
+// PendingLeave.jsx
 import React, { useState, useEffect } from 'react';
 import HodNavbar from './HodNavbar';
 import Table from '@mui/material/Table';
@@ -67,7 +68,7 @@ const PendingLeave = () => {
                   <TableCell>{request.start_date}</TableCell>
                   <TableCell>{request.end_date}</TableCell>
                   <TableCell>{request.designation}</TableCell>
-                  <TableCell>Pending</TableCell>
+                  <TableCell>{request.status}</TableCell>
                   <TableCell align="center">
                     <button className="view-button" onClick={() => handleViewLeave(request.staff_id)}>
                       View

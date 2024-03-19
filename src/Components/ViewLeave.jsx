@@ -40,47 +40,81 @@ const ViewLeave = () => {
       .catch((error) => console.error('Error fetching leave balances:', error));
   };
 
-
   const handleApproveAll = async () => {
     try {
       // Iterate through arrangements and approve each leave request
-      for (const arrangement of arrangements) {
-        await fetch(`http://localhost:3001/api/approveLeave/${arrangement.leave_request_id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ status: 'Approved' }),
-        });
-      }
+  
+      const url=window.location.href;
+      const staffId = url.substring(url.lastIndexOf('/') + 1);
+      await approveLeave1(staffId);
+
       fetchArrangements(); // Refresh the arrangements after approval
+      alert('Leave requests approved successfully');
     } catch (error) {
-      console.error('Error approving leave:', error);
+      console.error('Error approving leave:', error); // Line 52
+      alert('Error approving leave. Please try again later.');
     }
   };
+  
+  
+  
+  const approveLeave1 = async (staffId) => {
+    try {
+      const response = await fetch(`http://localhost:3001/api/approveLeave1/${staffId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status: 'Approved' }),
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+    } catch (error) {
+      throw new Error('Error approving leave:', error);
+    }
+  };
+  
 
   const handleDeclineAll = async () => {
     try {
-      // Iterate through arrangements and decline each leave request
-      for (const arrangement of arrangements) {
-        await fetch(`http://localhost:3001/api/approveLeave/${arrangement.leave_request_id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ status: 'Declined' }),
-        });
-      }
-      fetchArrangements(); // Refresh the arrangements after declining
+      // Iterate through arrangements and approve each leave request
+  
+      const url=window.location.href;
+      const staffId = url.substring(url.lastIndexOf('/') + 1);
+      await declineleave(staffId);
+
+      fetchArrangements(); // Refresh the arrangements after approval
+      alert('Leave requests declined successfully');
     } catch (error) {
-      console.error('Error declining leave:', error);
+      console.error('Error declining leave:', error); // Line 52
+      alert('Error declining leave. Please try again later.');
     }
   };
+
+ 
+  const declineleave = async (staffId) => {
+    try {
+      const response = await fetch(`http://localhost:3001/api/declineleave/${staffId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status: 'Declined' }),
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+    } catch (error) {
+      throw new Error('Error declining leave:', error);
+    }
+  };
+
 
   return (
     <div>
       <HodNavbar />
-      <h1>View Leave Details</h1>
+      <h1>Alternate Arrangements</h1>
       <div className="table-container">
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
